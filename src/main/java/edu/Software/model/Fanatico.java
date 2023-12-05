@@ -40,10 +40,11 @@ public class Fanatico {
         break;
       }
 
-    //   if (fanaticos.stream().anyMatch(fanatico -> nombre.equals(fanatico.nombre))) {
-    //     System.out.println("El fanático ya existe, intenta de nuevo.\n");
-    //     continue;
-    //   }
+      // if (fanaticos.stream().anyMatch(fanatico -> nombre.equals(fanatico.nombre)))
+      // {
+      // System.out.println("El fanático ya existe, intenta de nuevo.\n");
+      // continue;
+      // }
 
       String email = Keyboard.readString("Email: ");
       String ubicacion = Keyboard.readString("Ubicación: ");
@@ -99,6 +100,32 @@ public class Fanatico {
     }
   }
 
+  // MÉTODO PARA MOSTRAR FANÁTICOS QUE ASISTIERON A UN CONCIERTO ELEGIDO POR EL
+  // USUARIO
+  public static void MostrarFanaticosPorConcierto() {
+    MostrarConciertos2();
+    int indiceConcierto = Keyboard
+        .readInt("\nElija el número del concierto para ver los fanáticos que asistieron (-1 para salir): ");
+
+    if (indiceConcierto == -1) {
+      return; // SALIR SI ELIGE -1
+    }
+
+    if (indiceConcierto >= 1 && indiceConcierto <= Concierto.conciertos.size()) {
+      Concierto conciertoSeleccionado = Concierto.conciertos.get(indiceConcierto - 1);
+      System.out.printf("Fanáticos que asistieron al concierto en %s el %s:%n",
+          conciertoSeleccionado.getUbicacion(), conciertoSeleccionado.getFechaHora());
+
+      for (Fanatico fanatico : fanaticos) {
+        if (fanatico.getConciertosAsistidos().contains(conciertoSeleccionado)) {
+          System.out.printf("- %s%n", fanatico.getNombre());
+        }
+      }
+    } else {
+      System.out.println("Índice de concierto no válido.");
+    }
+  }
+
   // ACCESORES Y MUTADORES
   public String getNombre() {
     return nombre;
@@ -139,4 +166,4 @@ public class Fanatico {
   public void setConciertosAsistidos(List<Concierto> conciertosAsistidos) {
     this.conciertosAsistidos = conciertosAsistidos;
   }
-} 
+}

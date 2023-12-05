@@ -63,8 +63,8 @@ public class App {
                     Pedido.ActualizarEstadoPedido();
                     break;
                 case 11:
-                    System.out.println("Mostrar Fanaticos concierto");
-                    // Concierto.MostrarFanaticosConcierto();
+                    //System.out.println("Mostrar Fanaticos concierto");
+                    Fanatico.MostrarFanaticosPorConcierto();
                     break;
                 case 12:
                     Banda.MostrarBanda2();
