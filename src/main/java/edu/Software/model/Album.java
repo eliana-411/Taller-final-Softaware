@@ -13,6 +13,7 @@ public class Album {
   private String reseñas;
   private int ventas;
   private int sencillosDestacados;
+  private double costo;
   private List<Cancion> canciones;
   public static List<Album> albumes = new ArrayList<>();
 
@@ -23,19 +24,21 @@ public class Album {
     this.reseñas = "";
     this.ventas = 0;
     this.sencillosDestacados = 0;
+    this.costo = 0.0; 
     this.canciones = null;
   }
 
   // CCONSTRUCTOR PARAMETRIZADO
   // LANZAR NUEVO ÁLBUM
   public Album(String titulo, LocalDate fechaLanzamiento, String criticas, String reseñas, int ventas,
-      int sencillosDestacados, List<Cancion> canciones) {
+      int sencillosDestacados, double costo, List<Cancion> canciones) {
     this.titulo = titulo;
     this.fechaLanzamiento = fechaLanzamiento;
     this.criticas = criticas;
     this.reseñas = reseñas;
     this.ventas = ventas;
     this.sencillosDestacados = sencillosDestacados;
+    this.costo = costo;
     this.canciones = canciones;
   }
 
@@ -56,6 +59,7 @@ public class Album {
       String reseñas = Keyboard.readString("Reseñas: ");
       int ventas = Keyboard.readInt("Ventas: ");
       int sencillosDestacados = Keyboard.readInt("Sencillos destacados: ");
+      double costo = Keyboard.readDouble("Costo: ");
       // INICIALIZAR LA LISTA DE CANCIONES
       List<Cancion> canciones = new ArrayList<>();
       // VERIFICACIÓN INICIAL
@@ -73,7 +77,7 @@ public class Album {
         canciones.add(Cancion.canciones.get(i - 1));
 
       } while (true);
-      Album nuevoAlbum = new Album(titulo, fechaLanzamiento, criticas, reseñas, ventas, sencillosDestacados, canciones);
+      Album nuevoAlbum = new Album(titulo, fechaLanzamiento, criticas, reseñas, ventas, sencillosDestacados, costo, canciones);
 
       // AGREGAR ALBUM A LA LISTA DE ALBUMES
       albumes.add(nuevoAlbum);
@@ -97,9 +101,9 @@ public class Album {
     System.out.println("-".repeat(130));
     System.out.printf("%50s %n", "ALBUMES");
     System.out.println("-".repeat(130));
-    System.out.printf("%-18s %-20s %-20s %-26s %-10s %-15s %-15s%n", "TITULO", "FECHALANZAMIENTO", "CRITICAS",
+    System.out.printf("%-18s %-20s %-20s %-26s %-10s %-15s %-12s %-15s%n", "TITULO", "FECHALANZAMIENTO", "CRITICAS",
         "RESEÑAS",
-        "VENTAS", "DESTACDADOS", "CANCIONES");
+        "VENTAS", "DESTACDADOS", "COSTO", "CANCIONES");
     System.out.println("-".repeat(130));
     for (Album a : Album.albumes) {
       // OBTENER LA LISTA DE CANCIONES DEL ALBUM
@@ -110,8 +114,8 @@ public class Album {
       for (Cancion cancion : canciones) {
         cancionesStr.append(cancion.getNombre()).append(", ");
       }
-      System.out.printf("%-20s %-15s %-25s %-25s %-10d %-15d %-15s%n", a.getTitulo(), a.getFechaLanzamiento(),
-          a.getCriticas(), a.getReseñas(), a.getVentas(), a.getSencillosDestacados(), cancionesStr.toString());
+      System.out.printf("%-20s %-15s %-25s %-25s %-10d %-15d %-12.2f %-15s%n", a.getTitulo(), a.getFechaLanzamiento(),
+          a.getCriticas(), a.getReseñas(), a.getVentas(), a.getSencillosDestacados(), a.getCosto(), cancionesStr.toString());
     }
   }
 
@@ -143,9 +147,16 @@ public class Album {
   public int getSencillosDestacados() {
     return sencillosDestacados;
   }
+  public double getCosto() {
+    return costo;
+  }
 
   public void setTitulo(String titulo) {
     this.titulo = titulo;
+  }
+
+   public void setCosto(double costo) {
+    this.costo = costo;
   }
 
   public void setFechaLanzamiento(LocalDate fechaLanzamiento) {

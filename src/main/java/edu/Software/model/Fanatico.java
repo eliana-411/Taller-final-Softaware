@@ -113,6 +113,7 @@ public class Fanatico {
 
     if (indiceConcierto >= 1 && indiceConcierto <= Concierto.conciertos.size()) {
       Concierto conciertoSeleccionado = Concierto.conciertos.get(indiceConcierto - 1);
+      System.out.println();
       System.out.printf("Fanáticos que asistieron al concierto en %s el %s:%n",
           conciertoSeleccionado.getUbicacion(), conciertoSeleccionado.getFechaHora());
 

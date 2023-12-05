@@ -43,10 +43,10 @@ public class Pedido {
         break;
       }
 
-    //   if (pedidos.stream().anyMatch(pedido -> idPedido.equals(pedido.idPedido))) {
-    //     System.out.println("El pedido ya existe, intente de nuevo.\n");
-    //     continue;
-    //   }
+      // if (pedidos.stream().anyMatch(pedido -> idPedido.equals(pedido.idPedido))) {
+      // System.out.println("El pedido ya existe, intente de nuevo.\n");
+      // continue;
+      // }
 
       String direccionEnvio = Keyboard.readString("Dirección del Envío: ");
       String estadoPedido = Keyboard.readString("Estado del pedido: ");
@@ -146,7 +146,8 @@ public class Pedido {
     System.out.println("-".repeat(100));
     System.out.printf("%50s %n", "PEDIDOS");
     System.out.println("-".repeat(100));
-    System.out.printf("%-7s %-12s %-10s %-23s %-20s %-18s%n", "ID", "DIRECCIÓN", "ESTADO", "ARTÍCULOS", "ALBUMES", "FANÁTICOS");
+    System.out.printf("%-7s %-12s %-10s %-23s %-20s %-12s %-18s%n", "ID", "DIRECCIÓN", "ESTADO", "ARTÍCULOS", "ALBUMES", "TOTAL",
+        "FANÁTICOS");
     System.out.println("-".repeat(100));
     for (Pedido p : Pedido.pedidos) {
       // OBTENER LA LISTA DE ARTICULOS
@@ -175,8 +176,12 @@ public class Pedido {
       for (Fanatico fanatico : fanaticos) {
         fanaticosStr.append(fanatico.getNombre()).append(", ");
       }
-      System.out.printf("%-7s %-12s %-10s %-23s %-20s %-18s%n", p.getIdPedido(), p.getDireccionEnvio(),
-          p.getEstadoPedido(), articulosStr.toString(), albumesStr.toString(), fanaticosStr.toString());
+
+      // CALCULAR EL COSTO TOTAL DEL PEDIDO
+      double costoTotal = p.calcularCostoTotal();
+
+      System.out.printf("%-7s %-12s %-10s %-23s %-20s %-12.2f %-18s%n", p.getIdPedido(), p.getDireccionEnvio(),
+          p.getEstadoPedido(), articulosStr.toString(), albumesStr.toString(), costoTotal, fanaticosStr.toString());
     }
   }
 
@@ -251,6 +256,23 @@ public class Pedido {
 
   }
 
+  // MÉTODO PARA CALCULAR EL COSTO TOTAL DEL PEDIDO
+  public double calcularCostoTotal() {
+    double costoTotal = 0.0;
+
+    // CALCULAR EL COSTO TOTAL DE LOS ARTÍCULOS EN EL PEDIDO
+    for (Articulo articulo : articulos) {
+      costoTotal += articulo.getCosto();
+    }
+
+    // CALCULAR EL COSTO TOTAL DE LOS ALBUMES EN EL PEDIDO
+    for (Album album : albumes) {
+      costoTotal += album.getCosto();
+    }
+
+    return costoTotal;
+  }
+
   // ACCESORES Y MUTADORES
   public String getIdPedido() {
     return this.idPedido;
@@ -292,4 +314,3 @@ public class Pedido {
     this.estadoPedido = estadoPedido;
   }
 }
-
