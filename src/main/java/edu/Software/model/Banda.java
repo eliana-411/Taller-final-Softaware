@@ -38,8 +38,8 @@ public class Banda implements IBanda {
       }
 
       // if (bandas.stream().anyMatch(banda -> nombre.equals(banda.nombre))) {
-      //   System.out.println("La banda ya existe, intente de nuevo.\n");
-      //   continue;
+      // System.out.println("La banda ya existe, intente de nuevo.\n");
+      // continue;
       // }
 
       String generoMusical = Keyboard.readString("Genero Musical: ");
@@ -86,12 +86,13 @@ public class Banda implements IBanda {
   public void ActualizarInfoBanda() throws BandaNoEncontradaException {
     // ELECCIÓN DE LA BANDA A ACTUALIZAR
     Banda b = Banda.MostrarBanda();
+
     // DATOS ACTUALES DE LA BANDA
     System.out.println("\nDatos actuales de la banda\n");
     System.out.println("Nombre: " + b.getNombre());
     System.out.println("Género musical: " + b.getGeneroMusical());
     System.out.println("Historia: " + b.getHistoria());
-    System.out.println("Miembros: " + b.getMiembros());
+    System.out.println("Miembros: " + b.getMiembrosAsString());
 
     // PEDIR NUEVOS DATOS
     System.out.println("\nNuevos datos de la banda: \n");
@@ -105,11 +106,30 @@ public class Banda implements IBanda {
     String historia = Keyboard.readString("Historia: ");
     b.setHistoria(historia.length() > 0 ? historia : b.getHistoria());
 
+    // ACTUALIZAR MIEMBROS
     System.out.println("Miembros:");
+    List<Artista> nuevosMiembros = new ArrayList<>();
 
-    for (Banda bd : Banda.bandas) {
-      for (Artista a : bd.getMiembros())
-        System.out.printf("%s%n", a.getNombre());
+    int decision = Keyboard.readInt("¿Desea cambiar los miembros? (1 - Sí, 0 - No): ");
+    boolean seleccionoNuevosMiembros = false;
+
+    if (decision == 1) {
+      do {
+        MostrarArtista2(); // ARTISTAS DISPONIBLES
+        int i = Keyboard.readInt("\nElija el número del artista a agregar (-1 -Termina): ");
+
+        if (i == -1) {
+          seleccionoNuevosMiembros = true;
+          break; // TERMINAR SI ELIGE -1
+        }
+
+        nuevosMiembros.add(Artista.artistas.get(i - 1)); // AGREGAR ARTISTA A LA LISTA
+      } while (true);
+    }
+
+    // ACTUALIZAR LA LISTA DE MIEMBROS
+    if (seleccionoNuevosMiembros) {
+      b.setMiembros(nuevosMiembros);
     }
 
     // DATOS NUEVOS
@@ -117,8 +137,17 @@ public class Banda implements IBanda {
     System.out.println("Nombre: " + b.getNombre());
     System.out.println("Género musical: " + b.getGeneroMusical());
     System.out.println("Historia: " + b.getHistoria());
-    System.out.println("Miembros: " + b.getMiembros());
+    System.out.println("Miembros: " + b.getMiembrosAsString());
+  }
 
+  
+  // OBTENER LA LISTA DE MIEMBROS EN CADENA
+  public String getMiembrosAsString() {
+    StringBuilder miembrosStr = new StringBuilder();
+    for (Artista a : miembros) {
+      miembrosStr.append(a.getNombre()).append(", ");
+    }
+    return miembrosStr.toString();
   }
 
   // MOSTRAR BANDA
@@ -206,8 +235,7 @@ public class Banda implements IBanda {
     return bandas;
   }
 
-  public void setBandas(List<Banda> bandas) {
-    this.bandas = bandas;
-  }
+  // public void setBandas(List<Banda> bandas) {
+  // this.bandas = bandas;
+  // }
 }
-
